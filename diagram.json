@@ -1,0 +1,143 @@
+{
+  "version": 1,
+  "author": "Devansh Jamdar",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "wokwi-esp32-devkit-v1",
+      "id": "esp",
+      "top": -20,
+      "left": -10,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-dht22",
+      "id": "dht",
+      "top": -170,
+      "left": 150,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-rgb-led",
+      "id": "rgb",
+      "top": 120,
+      "left": 160,
+      "attrs": {
+        "common": "cathode"
+      }
+    },
+    {
+      "type": "wokwi-buzzer",
+      "id": "buzz",
+      "top": 40,
+      "left": 280,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-slide-switch",
+      "id": "sw",
+      "top": -40,
+      "left": 280,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 115,
+      "left": 250,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 145,
+      "left": 250,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r3",
+      "top": 175,
+      "left": 250,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "esp:3V3",
+      "dht:VCC",
+      "red"
+    ],
+    [
+      "esp:GND.1",
+      "dht:GND",
+      "black"
+    ],
+    [
+      "esp:15",
+      "dht:SDA",
+      "green"
+    ],
+    [
+      "esp:25",
+      "r1:1",
+      "orange"
+    ],
+    [
+      "r1:2",
+      "rgb:R",
+      "orange"
+    ],
+    [
+      "esp:26",
+      "r2:1",
+      "green"
+    ],
+    [
+      "r2:2",
+      "rgb:G",
+      "green"
+    ],
+    [
+      "esp:27",
+      "r3:1",
+      "blue"
+    ],
+    [
+      "r3:2",
+      "rgb:B",
+      "blue"
+    ],
+    [
+      "esp:GND.2",
+      "rgb:COM",
+      "black"
+    ],
+    [
+      "esp:14",
+      "buzz:1",
+      "purple"
+    ],
+    [
+      "esp:GND.2",
+      "buzz:2",
+      "black"
+    ],
+    [
+      "esp:33",
+      "sw:1",
+      "yellow"
+    ],
+    [
+      "esp:GND.2",
+      "sw:2",
+      "black"
+    ]
+  ]
+}

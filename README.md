@@ -1,77 +1,97 @@
-# ESP32-Smart-Environment-Monitoring-System
-ESP32 IoT environment monitor using DHT22 with RGB humidity status, buzzer alerts, and interrupt-driven manual override via slide switch.
-ESP32 Smart Environment Monitoring System is an embedded IoT project that continuously monitors temperature and humidity using a DHT22 sensor and provides real-time user feedback via an RGB LED and a buzzer. The system is designed using non-blocking timing (millis) for responsive behaviour. It includes an interrupt-driven slide switch that toggles manual override mode for user control of the RGB LED.
+# ESP32 Smart Environment Monitoring System (DHT22 + RGB + Buzzer + Interrupt Switch)
 
-This project demonstrates practical embedded engineering skills: sensor integration, PWM control via ESP32 LEDC channels, interrupt handling with debouncing, state management, and reliable real-time behaviour.
+A practical ESP32 IoT project that monitors **temperature & humidity** using a **DHT22** sensor and provides instant feedback using:
+- **RGB LED** status (humidity levels)
+- **Buzzer** alerts (high humidity)
+- **Slide switch interrupt** for **manual override** of the RGB LED
 
-What the system does (clear functional requirements)
-Inputs
+This repo is designed to be **GitHub + CV ready** and works in **Arduino IDE**, **PlatformIO**, and can be adapted to **Wokwi**.
 
-DHT22 sensor reads:
+---
 
-Humidity (%)
+## Features
 
-Temperature (°C)
+- Reads DHT22 every ~2 seconds (recommended interval)
+- Humidity status via RGB LED:
+  - **Green**: humidity ≤ 60%
+  - **Yellow**: 60% < humidity ≤ 75%
+  - **Red**: humidity > 75% (also triggers buzzer)
+- Buzzer alert toggles on/off at a fixed cadence when humidity is high
+- Slide switch uses an **interrupt** to toggle **Manual Override** mode:
+  - Manual mode cycles colours every 1 second
+  - Automatic humidity indication pauses (sensor still logs to Serial)
 
-Slide switch (interrupt) toggles manual mode ON/OFF
+---
 
-Outputs
+## Wiring (Typical)
 
-RGB LED indicates humidity range
+| Component | ESP32 Pin |
+|---|---|
+| DHT22 DATA | GPIO 15 |
+| RGB Red | GPIO 25 |
+| RGB Green | GPIO 26 |
+| RGB Blue | GPIO 27 |
+| Buzzer | GPIO 14 |
+| Slide Switch | GPIO 33 |
+| 3V3 | DHT22 VCC, RGB Anode (if common anode adjust logic), switch side |
+| GND | DHT22 GND, buzzer GND, RGB cathode (if common cathode) |
 
-Buzzer alerts when humidity is high
+**Important:** If your RGB LED is **common anode**, invert the PWM values (255 -> OFF).  
+Current code assumes **common cathode** RGB (most common in basic kits).
 
-Serial Monitor prints readings for debugging/logging
+---
 
-Status logic (rules)
-Automatic mode (default)
+## How To Run (Arduino IDE)
 
-RGB colour shows humidity state:
+1. Install **ESP32 board package** in Arduino IDE.
+2. Install library: **DHT sensor library** (Adafruit) + Adafruit Unified Sensor (if requested).
+3. Open:
+   - `src/esp32_environment_monitor.ino`
+4. Select Board: **ESP32 Dev Module**
+5. Upload and open Serial Monitor at **115200**.
 
-Green: humidity ≤ 60%
+---
 
-Yellow: 60% < humidity ≤ 75%
+## How To Run (PlatformIO)
 
-Red: humidity > 75%
+1. Install PlatformIO extension (VS Code)
+2. Open this folder in VS Code
+3. Build/Upload using PlatformIO tasks.
 
-Buzzer behaviour:
+---
 
-If humidity > 75%, buzzer toggles ON/OFF at a fixed interval (alert cadence)
+## Files
 
-If humidity drops back, buzzer turns OFF automatically
+- `src/esp32_environment_monitor.ino` — main firmware
+- `diagram.json` — optional Wokwi diagram template (edit pins if needed)
+- `libraries.txt` — Arduino library list
+- `platformio.ini` — PlatformIO build config
+- `requirements.txt` — kept for repo completeness (notes only)
 
-Manual Override mode (triggered by switch interrupt)
+---
 
-Automatic RGB indicator pauses
+## Customisation
 
-RGB cycles colours every 1 second (visual confirmation)
+Edit thresholds in code:
 
-Sensor still reads and logs to Serial
+```cpp
+static const float HUMIDITY_OK_MAX   = 60.0;
+static const float HUMIDITY_WARN_MAX = 75.0;
+```
 
-Buzzer stays OFF (no alerts in manual mode)
+Change pins as required at the top of the `.ino`.
 
+---
 
-Engineering decisions (why it’s good)
+## Demo Tips (for interview / video)
 
-Non-blocking design: Uses millis() timers instead of delay() so the system stays responsive.
+- Show humidity changing triggers LED transitions
+- Flip the switch to demonstrate interrupt/manual override
+- Mention debounce + non-blocking `millis()` design
 
-PWM brightness control: Uses ESP32 LEDC PWM channels for smooth RGB LED control.
+---
 
-Interrupt-driven input: Switch uses hardware interrupt so manual mode responds instantly.
+## Author
 
-Debouncing: ISR includes debounce window to prevent false toggles.
-
-Fail-safe sensor handling: If DHT returns NaN, LED shows a distinct “error” colour.
-
-
-ESP32 Smart Environment Monitoring System (IoT / Embedded)
-
-Built an ESP32-based temperature and humidity monitoring system using a DHT22 sensor with real-time serial logging.
-
-Implemented RGB LED humidity indicators using PWM (LEDC) with defined thresholds and error handling for sensor failures.
-
-Developed buzzer alert logic for high-humidity conditions using non-blocking timers to maintain responsiveness.
-
-Added interrupt-driven manual override via slide switch with debouncing and a colour-cycling user mode.
-
-Validated and tested behaviour in Wokwi prior to deployment and refined for low-latency response.
+Devansh Jamdar  
+LinkedIn: https://linkedin.com/in/devansh-jamdar-34b6b620b

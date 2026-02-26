@@ -1,0 +1,5 @@
+# This project is ESP32/Arduino based (not Python).
+# Use Arduino Library Manager or PlatformIO to install dependencies.
+# Arduino libraries:
+# - DHT sensor library (Adafruit)
+# - Adafruit Unified Sensor
