@@ -83,7 +83,7 @@ Change pins as required at the top of the `.ino`.
 
 ---
 
-## Demo Tips (for interview / video)
+## Tips 
 
 - Show humidity changing triggers LED transitions
 - Flip the switch to demonstrate interrupt/manual override
